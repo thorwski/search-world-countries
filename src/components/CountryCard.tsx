@@ -21,7 +21,7 @@ const CountryCard = ({
         <img
           src={flag}
           alt={`${name} flag`}
-          className="rounded-t-[5px] w-full h-[167px] object-fill"
+          className="rounded-t-[5px] w-full h-[167px] object-fill shadow-[0_0px_7px_0px_#0000000E]"
         />
       </div>
       <div className="p-6 space-y-4">
