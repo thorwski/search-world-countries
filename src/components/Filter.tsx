@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTheme } from "../context/ThemeContext";
 
 interface FilterProps {
   placeholder: string;
@@ -16,11 +17,15 @@ const Filter = ({
   disabled = false,
 }: FilterProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { theme } = useTheme();
+
+  const arrowIconLight = "/assets/arrow-down.svg";
+  const arrowIconDark = "/assets/arrow-down2.svg";
 
   return (
     <div className="relative">
       <div
-        className={`w-full min-w-[200px] max-w-[200px] text-base font-normal bg-white px-6 py-[18px] rounded-[5px] shadow-[0_2px_9px_0px_#0000000E] outline-none flex justify-between items-center gap-4 cursor-pointer ${
+        className={`w-full min-w-[200px] max-w-[200px] text-base font-normal bg-light-bg dark:bg-dark2-bg px-6 py-[18px] rounded-[5px] shadow-[0_2px_9px_0px_#0000000E] outline-none flex justify-between items-center gap-4 cursor-pointer ${
           disabled ? "opacity-50 cursor-not-allowed" : ""
         }`}
         onClick={() => !disabled && setIsOpen(!isOpen)}
@@ -32,7 +37,7 @@ const Filter = ({
           }`}
         >
           <img
-            src="/assets/arrow-down.svg"
+            src={theme === "dark" ? arrowIconDark : arrowIconLight}
             alt="dropdown arrow"
             className="w-[12px]"
           />
@@ -40,7 +45,7 @@ const Filter = ({
       </div>
 
       {isOpen && (
-        <div className="absolute w-full min-w-[200px] max-w-[200px] px-6 py-4 z-50 max-h-[300px] overflow-y-auto bg-white rounded-[5px] shadow-[0_2px_9px_0px_#0000000E] mt-1">
+        <div className="absolute w-full min-w-[200px] max-w-[200px] px-6 py-4 z-50 max-h-[300px] overflow-y-auto bg-light-bg dark:bg-dark2-bg rounded-[5px] shadow-[0_2px_9px_0px_#0000000E] mt-1">
           {options.map((option, index) => (
             <div
               key={index}

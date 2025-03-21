@@ -6,3 +6,17 @@ body {
   width: 100vw;
   overflow-x: hidden;
 }
+
+.dark body {
+  @apply bg-dark-bg text-dark-text;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-light-bg: #ffffff;
+  --color-dark-bg: #202c36;
+  --color-dark2-bg: #2B3844;
+  --color-light-text: #111517;
+  --color-dark-text: #ffffff;
+}

@@ -16,7 +16,7 @@ const CountryCard = ({
   capital,
 }: CountryCardProps) => {
   return (
-    <div className="bg-white rounded-[5px] shadow-[0_0px_7px_0px_#0000000E]">
+    <div className="bg-light-bg dark:bg-dark2-bg rounded-[5px] shadow-[0_0px_7px_0px_#0000000E]">
       <div>
         <img
           src={flag}
