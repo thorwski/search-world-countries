@@ -110,7 +110,7 @@ const CountryDetails = () => {
               <h1 className="text-[32px] font-extrabold mb-6">
                 {country.name.common}
               </h1>
-              <div className="flex flex-col xl:flex-row gap-8 xl:gap-[50px] 2xl:gap-[140px]">
+              <div className="flex flex-col md:flex-row gap-8 md:gap-16 xl:gap-20 2xl:gap-32">
                 <div className="flex flex-col gap-2">
                   <DetailItem label="Native name" value={nativeName} />
                   <DetailItem
