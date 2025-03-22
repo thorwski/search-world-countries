@@ -6,6 +6,7 @@ import { formatNumber } from "../utils/Functions";
 import DetailItem from "../components/DetailItem";
 import { useTheme } from "../context/ThemeContext";
 import { Country } from "./Interface";
+import { API_BASE_URL } from "../utils/api";
 
 const CountryDetails = () => {
   const { theme } = useTheme();
@@ -20,19 +21,20 @@ const CountryDetails = () => {
   useEffect(() => {
     const handleFetch = async () => {
       try {
-        const URL = "https://restcountries.com/v3.1/alpha";
-        const response = await axios.get(`${URL}/${countryCode}`);
-        const countryData = response.data[0];
+        const URL = `${API_BASE_URL}/alpha`;
+        const { data }: { data: Country[] } = await axios.get(
+          `${URL}/${countryCode}`
+        );
+        const countryData = data[0];
+
         setCountry(countryData);
 
         if (countryData.borders && countryData.borders.length > 0) {
-          const borderResponse = await axios.get(
-            `https://restcountries.com/v3.1/alpha?codes=${countryData.borders.join(
-              ","
-            )}`
+          const { data: borderData }: { data: Country[] } = await axios.get(
+            `${API_BASE_URL}/alpha?codes=${countryData.borders.join(",")}`
           );
-          const borderNames = borderResponse.data.map(
-            (borderCountry: Country) => borderCountry.name.common
+          const borderNames = borderData.map(
+            (borderCountry) => borderCountry.name.common
           );
           setBorderCountries(borderNames);
         }
@@ -42,6 +44,7 @@ const CountryDetails = () => {
         setLoading(false);
       }
     };
+
     handleFetch();
   }, [countryCode]);
 

@@ -6,6 +6,7 @@ import Filter from "../components/Filter";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import { Country } from "./Interface";
+import { API_BASE_URL } from "../utils/api";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -30,8 +31,7 @@ const Home = () => {
   useEffect(() => {
     const handleFetch = async () => {
       try {
-        const URL = "https://restcountries.com/v3.1/all";
-        setLoading(true);
+        const URL = `${API_BASE_URL}/all`;
         const { data }: { data: Country[] } = await axios.get(URL);
 
         setAllCountries(data);
