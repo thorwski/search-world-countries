@@ -8,10 +8,20 @@ import { useNavigate } from "react-router-dom";
 import { Country } from "./Interface";
 import { API_BASE_URL } from "../utils/api";
 
+const INITIAL_COUNTRY_CODES = [
+  "DEU",
+  "USA",
+  "BRA",
+  "ISL",
+  "AFG",
+  "ALA",
+  "ALB",
+  "DZA",
+];
+
 const Home = () => {
   const navigate = useNavigate();
   const [allCountries, setAllCountries] = useState<Country[]>([]);
-  const [displayCountries, setDisplayCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
@@ -19,70 +29,55 @@ const Home = () => {
 
   const regions = ["Africa", "Americas", "Asia", "Europe", "Oceania"];
 
-  const initialCountryCodes = useMemo(
-    () => ["DEU", "USA", "BRA", "ISL", "AFG", "ALA", "ALB", "DZA"],
-    []
-  );
-
-  const handleCardClick = (countryCode: string) => {
-    navigate(`/country/${countryCode}`);
-  };
+  const getInitialCountries = (countries: Country[]) =>
+    countries
+      .filter((country) => INITIAL_COUNTRY_CODES.includes(country.cca3))
+      .sort(
+        (a, b) =>
+          INITIAL_COUNTRY_CODES.indexOf(a.cca3) -
+          INITIAL_COUNTRY_CODES.indexOf(b.cca3)
+      );
 
   useEffect(() => {
     const handleFetch = async () => {
       try {
-        const URL = `${API_BASE_URL}/all`;
-        const { data }: { data: Country[] } = await axios.get(URL);
-
+        const { data }: { data: Country[] } = await axios.get(
+          `${API_BASE_URL}/all`
+        );
         setAllCountries(data);
-
-        const initialCountries = data.filter((country: Country) =>
-          initialCountryCodes.includes(country.cca3)
-        );
-
-        initialCountries.sort(
-          (a, b) =>
-            initialCountryCodes.indexOf(a.cca3) -
-            initialCountryCodes.indexOf(b.cca3)
-        );
-
-        setDisplayCountries(initialCountries);
       } catch (err) {
+        const errorMessage = axios.isAxiosError(err)
+          ? `Failed to fetch countries: ${err.message}`
+          : "An unexpected error occurred.";
         console.error("Error to load countries: ", err);
-        setError("Error to load countries.");
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
     };
-
     handleFetch();
-  }, [initialCountryCodes]);
+  }, []);
 
-  useEffect(() => {
-    if (!allCountries.length) return;
+  const displayCountries = useMemo(() => {
+    if (!allCountries.length) return [];
 
     if (searchValue || regionFilter) {
-      const filtered = allCountries.filter(
-        (country) =>
-          country.name.common
-            .toLowerCase()
-            .includes(searchValue.toLowerCase()) &&
-          (regionFilter ? country.region === regionFilter : true)
-      );
-      filtered.sort((a, b) => a.name.common.localeCompare(b.name.common));
-      setDisplayCountries(filtered);
-    } else {
-      const initialCountries = allCountries.filter((country) =>
-        initialCountryCodes.includes(country.cca3)
-      );
-      initialCountries.sort(
-        (a, b) =>
-          initialCountryCodes.indexOf(a.cca3) -
-          initialCountryCodes.indexOf(b.cca3)
-      );
-      setDisplayCountries(initialCountries);
+      return allCountries
+        .filter(
+          (country) =>
+            country.name.common
+              .toLowerCase()
+              .includes(searchValue.toLowerCase()) &&
+            (regionFilter ? country.region === regionFilter : true)
+        )
+        .sort((a, b) => a.name.common.localeCompare(b.name.common));
     }
-  }, [searchValue, regionFilter, allCountries, initialCountryCodes]);
+    return getInitialCountries(allCountries);
+  }, [searchValue, regionFilter, allCountries]);
+
+  const handleCardClick = (countryCode: string) => {
+    navigate(`/country/${countryCode}`);
+  };
 
   return (
     <div>
@@ -101,7 +96,6 @@ const Home = () => {
             placeholder="Filter by Region"
           />
         </div>
-
         {loading ? (
           <p className="text-center text-gray-500 dark:text-dark-text col-span-full text-lg">
             Loading countries...
