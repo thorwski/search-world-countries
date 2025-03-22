@@ -7,6 +7,7 @@ import DetailItem from "../components/DetailItem";
 import { useTheme } from "../context/ThemeContext";
 import { Country } from "./Interface";
 import { API_BASE_URL } from "../utils/api";
+import Badge from "../components/Badge";
 
 const CountryDetails = () => {
   const { theme } = useTheme();
@@ -103,7 +104,7 @@ const CountryDetails = () => {
           <img
             src={country.flags.png}
             alt={`${country.name.common} flag`}
-            className="w-full xl:max-w-[560px] xl:min-h-[401px] rounded-[10px]"
+            className="w-full xl:max-w-[560px] xl:min-h-[400px] rounded-[10px]"
           />
           <div>
             <div>
@@ -158,12 +159,7 @@ const CountryDetails = () => {
                   {[...borderCountries]
                     .sort((a, b) => a.localeCompare(b))
                     .map((borderCountry) => (
-                      <span
-                        key={borderCountry}
-                        className="truncate font-light text-sm px-5 py-1 bg-light-bg dark:bg-dark2-bg rounded-md shadow-sm text-center"
-                      >
-                        {borderCountry}
-                      </span>
+                      <Badge label={borderCountry} />
                     ))}
                 </div>
               </div>
