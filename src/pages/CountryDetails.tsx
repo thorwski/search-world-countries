@@ -166,7 +166,7 @@ const CountryDetails = () => {
                       .map((borderCountry) => (
                         <span
                           key={borderCountry}
-                          className="truncate font-light text-sm px-5 py-1 bg-light-bg dark:bg-dark2-bg rounded-[5px] shadow-[0_0px_7px_0px_#0000000E] cursor-pointer text-center"
+                          className="truncate font-light text-sm px-5 py-1 bg-light-bg dark:bg-dark2-bg rounded-[5px] shadow-[0_0px_7px_0px_#0000000E] text-center"
                         >
                           {borderCountry}
                         </span>
