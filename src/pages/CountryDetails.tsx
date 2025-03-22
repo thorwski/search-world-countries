@@ -101,83 +101,81 @@ const CountryDetails = () => {
 
   return (
     <div>
-      <div className="">
-        <Header />
-        <main className="pt-30 md:pt-40 px-7 md:px-20 space-y-[64px] md:space-y-20 pb-15">
-          <Link
-            to="/"
-            className="flex gap-[10px] items-center bg-light-bg dark:bg-dark2-bg rounded-[5px] shadow-[0_0px_7px_0px_#0000000E] px-8 py-[10px] cursor-pointer max-w-[136px]"
-          >
-            <img
-              src={theme === "dark" ? leftArrowIconDark : leftArrowIconLight}
-              alt="left arrow icon"
-            />
-            <span>Back</span>
-          </Link>
-          <div className="flex flex-col xl:flex-row gap-11 xl:gap-[144px]">
-            <img
-              src={country.flags.png}
-              alt={`${country.name.common} flag`}
-              className="w-full xl:max-w-[560px] xl:min-h-[401px] rounded-[10px]"
-            />
+      <Header />
+      <main className="pt-30 md:pt-40 px-7 md:px-20 space-y-[64px] md:space-y-20 pb-15">
+        <Link
+          to="/"
+          className="flex gap-[10px] items-center bg-light-bg dark:bg-dark2-bg rounded-[5px] shadow-[0_0px_7px_0px_#0000000E] px-8 py-[10px] cursor-pointer max-w-[136px]"
+        >
+          <img
+            src={theme === "dark" ? leftArrowIconDark : leftArrowIconLight}
+            alt="left arrow icon"
+          />
+          <span>Back</span>
+        </Link>
+        <div className="flex flex-col xl:flex-row gap-11 xl:gap-[144px]">
+          <img
+            src={country.flags.png}
+            alt={`${country.name.common} flag`}
+            className="w-full xl:max-w-[560px] xl:min-h-[401px] rounded-[10px]"
+          />
+          <div>
             <div>
-              <div>
-                <h1 className="text-[32px] font-extrabold mb-6">
-                  {country.name.common}
-                </h1>
-                <div className="flex flex-col xl:flex-row gap-8 xl:gap-[50px] 2xl:gap-[140px]">
-                  <div className="flex flex-col gap-2">
-                    <DetailItem label="Native name" value={nativeName} />
-                    <DetailItem
-                      label="Population"
-                      value={formatNumber(country.population)}
-                    />
-                    <DetailItem label="Region" value={country.region} />
-                    <DetailItem label="Sub Region" value={country.subregion} />
-                    <DetailItem label="Capital" value={country.capital?.[0]} />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <DetailItem
-                      label="Top Level Domain"
-                      value={country.tld?.[0]}
-                    />
-                    <DetailItem
-                      label="Currencies"
-                      value={
-                        country.currencies?.[Object.keys(country.currencies)[0]]
-                          ?.name
-                      }
-                    />
-                    <DetailItem
-                      label="Languages"
-                      value={Object.values(country.languages || {})
-                        .sort()
-                        .join(", ")}
-                    />
-                  </div>
+              <h1 className="text-[32px] font-extrabold mb-6">
+                {country.name.common}
+              </h1>
+              <div className="flex flex-col xl:flex-row gap-8 xl:gap-[50px] 2xl:gap-[140px]">
+                <div className="flex flex-col gap-2">
+                  <DetailItem label="Native name" value={nativeName} />
+                  <DetailItem
+                    label="Population"
+                    value={formatNumber(country.population)}
+                  />
+                  <DetailItem label="Region" value={country.region} />
+                  <DetailItem label="Sub Region" value={country.subregion} />
+                  <DetailItem label="Capital" value={country.capital?.[0]} />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <DetailItem
+                    label="Top Level Domain"
+                    value={country.tld?.[0]}
+                  />
+                  <DetailItem
+                    label="Currencies"
+                    value={
+                      country.currencies?.[Object.keys(country.currencies)[0]]
+                        ?.name
+                    }
+                  />
+                  <DetailItem
+                    label="Languages"
+                    value={Object.values(country.languages || {})
+                      .sort()
+                      .join(", ")}
+                  />
                 </div>
               </div>
-              {borderCountries.length > 0 && (
-                <div className="mt-8">
-                  <p className="text-base font-semibold">Border Countries:</p>
-                  <div className="grid grid-cols-3 gap-2 mt-2">
-                    {[...borderCountries]
-                      .sort((a, b) => a.localeCompare(b))
-                      .map((borderCountry) => (
-                        <span
-                          key={borderCountry}
-                          className="truncate font-light text-sm px-5 py-1 bg-light-bg dark:bg-dark2-bg rounded-[5px] shadow-[0_0px_7px_0px_#0000000E] text-center"
-                        >
-                          {borderCountry}
-                        </span>
-                      ))}
-                  </div>
-                </div>
-              )}
             </div>
+            {borderCountries.length > 0 && (
+              <div className="mt-8">
+                <p className="text-base font-semibold">Border Countries:</p>
+                <div className="grid grid-cols-3 gap-2 mt-2">
+                  {[...borderCountries]
+                    .sort((a, b) => a.localeCompare(b))
+                    .map((borderCountry) => (
+                      <span
+                        key={borderCountry}
+                        className="truncate font-light text-sm px-5 py-1 bg-light-bg dark:bg-dark2-bg rounded-[5px] shadow-[0_0px_7px_0px_#0000000E] text-center"
+                      >
+                        {borderCountry}
+                      </span>
+                    ))}
+                </div>
+              </div>
+            )}
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 };
