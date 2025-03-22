@@ -5,31 +5,12 @@ import Header from "../components/Header";
 import { formatNumber } from "../utils/Functions";
 import DetailItem from "../components/DetailItem";
 import { useTheme } from "../context/ThemeContext";
-
-interface CountryDetails {
-  cca3: string;
-  name: {
-    common: string;
-    official: string;
-    nativeName: Record<string, { official: string; common: string }>;
-  };
-  population: number;
-  region: string;
-  capital?: string[];
-  flags: {
-    png: string;
-  };
-  subregion?: string;
-  tld?: string[];
-  currencies?: Record<string, { name: string }>;
-  languages?: Record<string, string>;
-  borders?: string[];
-}
+import { Country } from "./Interface";
 
 const CountryDetails = () => {
   const { theme } = useTheme();
   const { countryCode } = useParams<{ countryCode: string }>();
-  const [country, setCountry] = useState<CountryDetails | null>(null);
+  const [country, setCountry] = useState<Country | null>(null);
   const [borderCountries, setBorderCountries] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -51,7 +32,7 @@ const CountryDetails = () => {
             )}`
           );
           const borderNames = borderResponse.data.map(
-            (borderCountry: CountryDetails) => borderCountry.name.common
+            (borderCountry: Country) => borderCountry.name.common
           );
           setBorderCountries(borderNames);
         }

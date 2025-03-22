@@ -5,19 +5,7 @@ import CountryCard from "../components/CountryCard";
 import Filter from "../components/Filter";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
-
-interface Country {
-  cca3: string;
-  name: {
-    common: string;
-  };
-  population: number;
-  region: string;
-  capital?: string[];
-  flags: {
-    png: string;
-  };
-}
+import { Country } from "./Interface";
 
 const Home = () => {
   const navigate = useNavigate();
