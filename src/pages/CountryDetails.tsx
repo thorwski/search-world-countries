@@ -155,7 +155,7 @@ const CountryDetails = () => {
             {borderCountries.length > 0 && (
               <div className="mt-8">
                 <p className="text-base font-semibold">Border Countries:</p>
-                <div className="grid grid-cols-3 gap-2 mt-2">
+                <div className="grid grid-cols-3 gap-2 mt-2 max-w-[500px]">
                   {[...borderCountries]
                     .sort((a, b) => a.localeCompare(b))
                     .map((borderCountry) => (
