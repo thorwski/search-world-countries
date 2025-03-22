@@ -111,8 +111,8 @@ const CountryDetails = () => {
               <h1 className="text-[32px] font-extrabold mb-6">
                 {country.name.common}
               </h1>
-              <div className="flex flex-col md:flex-row gap-8 md:gap-16 xl:gap-20 2xl:gap-32">
-                <div className="flex flex-col gap-2">
+              <div className="flex flex-col md:flex-row gap-8 md:gap-16 xl:gap-20 2xl:gap-30">
+                <div className="flex flex-col gap-2 min-w-[207px]">
                   <DetailItem label="Native name" value={nativeName} />
                   <DetailItem
                     label="Population"
@@ -155,7 +155,7 @@ const CountryDetails = () => {
             {borderCountries.length > 0 && (
               <div className="mt-8">
                 <p className="text-base font-semibold">Border Countries:</p>
-                <div className="grid grid-cols-3 gap-2 mt-2 max-w-[500px]">
+                <div className="grid grid-cols-3 gap-2 mt-2 xl:min-w-[500px] xl:max-w-[500px]">
                   {[...borderCountries]
                     .sort((a, b) => a.localeCompare(b))
                     .map((borderCountry) => (
