@@ -14,39 +14,59 @@ const CountryDetails = () => {
   const [country, setCountry] = useState<Country | null>(null);
   const [borderCountries, setBorderCountries] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const leftArrowIconLight = "/assets/left-arrow.svg";
-  const leftArrowIconDark = "/assets/left-arrow2.svg";
+  const leftArrowIcon =
+    theme === "dark" ? "/assets/left-arrow2.svg" : "/assets/left-arrow.svg";
+
+  const BackButton = () => (
+    <Link
+      to="/"
+      className="flex gap-2 items-center bg-light-bg dark:bg-dark2-bg rounded-md shadow-sm px-8 py-2 cursor-pointer max-w-[136px]"
+    >
+      <img src={leftArrowIcon} alt="left arrow icon" />
+      <span>Back</span>
+    </Link>
+  );
 
   useEffect(() => {
-    const handleFetch = async () => {
+    const handleFetchCountry = async () => {
       try {
-        const URL = `${API_BASE_URL}/alpha`;
         const { data }: { data: Country[] } = await axios.get(
-          `${URL}/${countryCode}`
+          `${API_BASE_URL}/alpha/${countryCode}`
         );
-        const countryData = data[0];
+        setCountry(data[0]);
+      } catch (error) {
+        const errorMessage = axios.isAxiosError(error)
+          ? `Failed to fetch country details: ${error.message}`
+          : "An unexpected error occurred.";
+        console.error("Error fetching country details:", error);
+        setError(errorMessage);
+      } finally {
+        setLoading(false);
+      }
+    };
+    handleFetchCountry();
+  }, [countryCode]);
 
-        setCountry(countryData);
-
-        if (countryData.borders && countryData.borders.length > 0) {
+  useEffect(() => {
+    const handleFetchBorders = async () => {
+      if (country && country.borders && country.borders.length > 0) {
+        try {
           const { data: borderData }: { data: Country[] } = await axios.get(
-            `${API_BASE_URL}/alpha?codes=${countryData.borders.join(",")}`
+            `${API_BASE_URL}/alpha?codes=${country.borders.join(",")}`
           );
           const borderNames = borderData.map(
             (borderCountry) => borderCountry.name.common
           );
           setBorderCountries(borderNames);
+        } catch (error) {
+          console.error("Error fetching border countries:", error);
         }
-      } catch (error) {
-        console.error("Error fetching country details:", error);
-      } finally {
-        setLoading(false);
       }
     };
-
-    handleFetch();
-  }, [countryCode]);
+    handleFetchBorders();
+  }, [country]);
 
   if (loading) {
     return (
@@ -61,42 +81,24 @@ const CountryDetails = () => {
     );
   }
 
-  if (!country) {
+  if (error || !country) {
     return (
       <div className="flex flex-col justify-center items-center h-screen space-y-6">
-        <p className="text-lg text-red-500">Country not found</p>
-        <Link
-          to="/"
-          className="flex gap-[10px] items-center bg-light-bg dark:bg-dark2-bg rounded-[5px] shadow-[0_0px_7px_0px_#0000000E] px-8 py-[10px] cursor-pointer"
-        >
-          <img
-            src={theme === "dark" ? leftArrowIconDark : leftArrowIconLight}
-            alt="left arrow icon"
-          />
-          <span>Back to Home</span>
-        </Link>
+        <p className="text-lg text-red-500">{error || "Country not found"}</p>
+        <BackButton />
       </div>
     );
   }
 
-  const nativeName = country.name.nativeName
-    ? Object.values(country.name.nativeName)[0]?.common ?? country.name.common
-    : country.name.common;
+  const nativeName =
+    Object.values(country.name.nativeName || {})[0]?.common ||
+    country.name.common;
 
   return (
     <div>
       <Header />
       <main className="pt-30 md:pt-40 px-7 md:px-20 space-y-[64px] md:space-y-20 pb-15">
-        <Link
-          to="/"
-          className="flex gap-[10px] items-center bg-light-bg dark:bg-dark2-bg rounded-[5px] shadow-[0_0px_7px_0px_#0000000E] px-8 py-[10px] cursor-pointer max-w-[136px]"
-        >
-          <img
-            src={theme === "dark" ? leftArrowIconDark : leftArrowIconLight}
-            alt="left arrow icon"
-          />
-          <span>Back</span>
-        </Link>
+        <BackButton />
         <div className="flex flex-col xl:flex-row gap-11 xl:gap-[144px]">
           <img
             src={country.flags.png}
@@ -117,25 +119,34 @@ const CountryDetails = () => {
                   />
                   <DetailItem label="Region" value={country.region} />
                   <DetailItem label="Sub Region" value={country.subregion} />
-                  <DetailItem label="Capital" value={country.capital?.[0]} />
+                  <DetailItem
+                    label="Capital"
+                    value={country.capital?.[0] || "N/A"}
+                  />
                 </div>
                 <div className="flex flex-col gap-2">
                   <DetailItem
                     label="Top Level Domain"
-                    value={country.tld?.[0]}
+                    value={country.tld?.[0] || "N/A"}
                   />
                   <DetailItem
                     label="Currencies"
                     value={
-                      country.currencies?.[Object.keys(country.currencies)[0]]
-                        ?.name
+                      country.currencies &&
+                      Object.keys(country.currencies).length > 0
+                        ? country.currencies[Object.keys(country.currencies)[0]]
+                            .name
+                        : "N/A"
                     }
                   />
                   <DetailItem
                     label="Languages"
-                    value={Object.values(country.languages || {})
-                      .sort()
-                      .join(", ")}
+                    value={
+                      country.languages &&
+                      Object.keys(country.languages).length > 0
+                        ? Object.values(country.languages).sort().join(", ")
+                        : "N/A"
+                    }
                   />
                 </div>
               </div>
@@ -149,7 +160,7 @@ const CountryDetails = () => {
                     .map((borderCountry) => (
                       <span
                         key={borderCountry}
-                        className="truncate font-light text-sm px-5 py-1 bg-light-bg dark:bg-dark2-bg rounded-[5px] shadow-[0_0px_7px_0px_#0000000E] text-center"
+                        className="truncate font-light text-sm px-5 py-1 bg-light-bg dark:bg-dark2-bg rounded-md shadow-sm text-center"
                       >
                         {borderCountry}
                       </span>
