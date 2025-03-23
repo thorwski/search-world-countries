@@ -111,12 +111,12 @@ const Home = () => {
             {error}
           </p>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-8 pb-12 md:px-0 gap-[75px] place-items-center max-w-[1280px] mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-12 gap-[75px] place-items-center max-w-[1280px] mx-auto">
             {displayCountries.length > 0 ? (
               displayCountries.map((country) => (
                 <div
                   key={country.cca3}
-                  className="sm:max-w-[264px] sm:max-h-[336px] w-full cursor-pointer"
+                  className="w-full max-w-[264px] sm:max-h-[336px] cursor-pointer"
                   onClick={() => handleCardClick(country.cca3)}
                 >
                   <CountryCard
