@@ -104,11 +104,11 @@ const CountryDetails = () => {
       <Header />
       <main className="pt-30 md:pt-40 px-7 md:px-20 space-y-[64px] md:space-y-20 pb-15">
         <BackButton />
-        <div className="flex flex-col xl:flex-row gap-11 xl:gap-[144px]">
+        <div className="flex flex-col xl:flex-row gap-11 xl:gap-[144px] sm:items-center">
           <img
             src={country.flags.png}
             alt={`${country.name.common} flag`}
-            className="w-full xl:max-w-[560px] xl:min-h-[400px] rounded-[10px]"
+            className="w-full sm:max-w-[560px] sm:min-h-[400px] sm:max-h-[400px] rounded-[10px]"
           />
           <div>
             <div>
@@ -156,9 +156,9 @@ const CountryDetails = () => {
                 </div>
               </div>
             </div>
-            {borderCountries.length > 0 && (
-              <div className="mt-8">
-                <p className="text-base font-semibold">Border Countries:</p>
+            <div className="mt-8">
+              <p className="text-base font-semibold">Border Countries:</p>
+              {borderCountries.length > 0 ? (
                 <div className="grid grid-cols-3 gap-2 mt-2 xl:min-w-[500px] xl:max-w-[500px]">
                   {[...borderCountries]
                     .sort((a, b) => a.name.localeCompare(b.name))
@@ -168,14 +168,18 @@ const CountryDetails = () => {
                         onClick={() =>
                           navigate(`/country/${borderCountry.code}`)
                         }
-                        className="cursor-pointer"
+                        className="cursor-pointer w-full"
                       >
                         <Badge label={borderCountry.name} />
                       </div>
                     ))}
                 </div>
-              </div>
-            )}
+              ) : (
+                <p className="text-base font-light text-light-text dark:text-dark-text mt-2">
+                  This country has no border countries.
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </main>
