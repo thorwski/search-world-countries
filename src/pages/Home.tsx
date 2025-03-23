@@ -66,9 +66,15 @@ const Home = () => {
         .filter(
           (country) =>
             country.name.common
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
               .toLowerCase()
-              .includes(searchValue.toLowerCase()) &&
-            (regionFilter ? country.region === regionFilter : true)
+              .includes(
+                searchValue
+                  .normalize("NFD")
+                  .replace(/[\u0300-\u036f]/g, "")
+                  .toLowerCase()
+              ) && (regionFilter ? country.region === regionFilter : true)
         )
         .sort((a, b) => a.name.common.localeCompare(b.name.common));
     }
