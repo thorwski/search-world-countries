@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/Header";
 import { formatNumber } from "../utils/Functions";
@@ -10,10 +10,13 @@ import { API_BASE_URL } from "../utils/api";
 import Badge from "../components/Badge";
 
 const CountryDetails = () => {
+  const navigate = useNavigate();
   const { theme } = useTheme();
   const { countryCode } = useParams<{ countryCode: string }>();
   const [country, setCountry] = useState<Country | null>(null);
-  const [borderCountries, setBorderCountries] = useState<string[]>([]);
+  const [borderCountries, setBorderCountries] = useState<
+    { name: string; code: string }[]
+  >([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -57,10 +60,11 @@ const CountryDetails = () => {
           const { data: borderData }: { data: Country[] } = await axios.get(
             `${API_BASE_URL}/alpha?codes=${country.borders.join(",")}`
           );
-          const borderNames = borderData.map(
-            (borderCountry) => borderCountry.name.common
-          );
-          setBorderCountries(borderNames);
+          const borderInfo = borderData.map((borderCountry) => ({
+            name: borderCountry.name.common,
+            code: borderCountry.cca3,
+          }));
+          setBorderCountries(borderInfo);
         } catch (error) {
           console.error("Error fetching border countries:", error);
         }
@@ -157,9 +161,17 @@ const CountryDetails = () => {
                 <p className="text-base font-semibold">Border Countries:</p>
                 <div className="grid grid-cols-3 gap-2 mt-2 xl:min-w-[500px] xl:max-w-[500px]">
                   {[...borderCountries]
-                    .sort((a, b) => a.localeCompare(b))
+                    .sort((a, b) => a.name.localeCompare(b.name))
                     .map((borderCountry) => (
-                      <Badge label={borderCountry} />
+                      <div
+                        key={borderCountry.code}
+                        onClick={() =>
+                          navigate(`/country/${borderCountry.code}`)
+                        }
+                        className="cursor-pointer"
+                      >
+                        <Badge label={borderCountry.name} />
+                      </div>
                     ))}
                 </div>
               </div>
