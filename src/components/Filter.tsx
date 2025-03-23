@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "../context/ThemeContext";
 
 interface FilterProps {
@@ -18,12 +18,30 @@ const Filter = ({
 }: FilterProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { theme } = useTheme();
+  const filterRef = useRef<HTMLDivElement>(null);
 
   const arrowIconLight = "/assets/arrow-down.svg";
   const arrowIconDark = "/assets/arrow-down2.svg";
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        filterRef.current &&
+        !filterRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="relative">
+    <div className="relative" ref={filterRef}>
       <div
         className={`w-full min-w-[200px] max-w-[200px] text-base font-normal bg-light-bg dark:bg-dark2-bg px-6 py-[18px] rounded-[5px] shadow-[0_2px_9px_0px_#0000000E] outline-none flex justify-between items-center gap-4 cursor-pointer ${
           disabled ? "opacity-50 cursor-not-allowed" : ""
