@@ -89,7 +89,7 @@ const Home = () => {
     <div>
       <Header />
       <main className="pt-26 md:pt-32 px-4 md:px-20">
-        <div className="flex flex-col md:flex-row gap-10 justify-between mb-12">
+        <div className="flex flex-col md:flex-row gap-10 justify-between mb-12 max-w-[1280px] mx-auto">
           <SearchInput
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
@@ -111,12 +111,12 @@ const Home = () => {
             {error}
           </p>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-8 pb-12 md:px-0 gap-12 place-items-center">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-8 pb-12 md:px-0 gap-[75px] place-items-center max-w-[1280px] mx-auto">
             {displayCountries.length > 0 ? (
               displayCountries.map((country) => (
                 <div
                   key={country.cca3}
-                  className="sm:max-w-[300px] w-full cursor-pointer"
+                  className="sm:max-w-[264px] sm:max-h-[336px] w-full cursor-pointer"
                   onClick={() => handleCardClick(country.cca3)}
                 >
                   <CountryCard

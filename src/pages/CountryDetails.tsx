@@ -102,83 +102,88 @@ const CountryDetails = () => {
   return (
     <div>
       <Header />
-      <main className="pt-30 md:pt-40 px-7 md:px-20 space-y-[64px] md:space-y-20 pb-15">
-        <BackButton />
-        <div className="flex flex-col xl:flex-row gap-11 xl:gap-[144px] sm:items-center">
-          <img
-            src={country.flags.png}
-            alt={`${country.name.common} flag`}
-            className="w-full h-[229px] sm:max-w-[560px] sm:min-h-[400px] sm:max-h-[400px] rounded-[10px]"
-          />
-          <div>
+      <main className="pt-30 md:pt-40 px-[28px] md:px-20 space-y-[64px] md:space-y-20 pb-15">
+        <div className="max-w-[1280px] mx-auto space-y-[64px] md:space-y-20">
+          <div className="w-full sm:max-w-[560px] sm:mx-auto xl:max-w-none xl:mx-0">
+            <BackButton />
+          </div>
+          <div className="flex flex-col xl:flex-row gap-11 xl:gap-[144px] sm:items-center">
+            <img
+              src={country.flags.png}
+              alt={`${country.name.common} flag`}
+              className="w-full h-[229px] sm:max-w-[560px] sm:min-h-[400px] sm:max-h-[400px] rounded-[10px]"
+            />
             <div>
-              <h1 className="text-[32px] font-extrabold mb-6">
-                {country.name.common}
-              </h1>
-              <div className="flex flex-col sm:flex-row gap-8 sm:gap-16 xl:gap-20 2xl:gap-30">
-                <div className="flex flex-col gap-2 min-w-[207px]">
-                  <DetailItem label="Native name" value={nativeName} />
-                  <DetailItem
-                    label="Population"
-                    value={formatNumber(country.population)}
-                  />
-                  <DetailItem label="Region" value={country.region} />
-                  <DetailItem label="Sub Region" value={country.subregion} />
-                  <DetailItem
-                    label="Capital"
-                    value={country.capital?.[0] || "N/A"}
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <DetailItem
-                    label="Top Level Domain"
-                    value={country.tld?.[0] || "N/A"}
-                  />
-                  <DetailItem
-                    label="Currencies"
-                    value={
-                      country.currencies &&
-                      Object.keys(country.currencies).length > 0
-                        ? country.currencies[Object.keys(country.currencies)[0]]
-                            .name
-                        : "N/A"
-                    }
-                  />
-                  <DetailItem
-                    label="Languages"
-                    value={
-                      country.languages &&
-                      Object.keys(country.languages).length > 0
-                        ? Object.values(country.languages).sort().join(", ")
-                        : "N/A"
-                    }
-                  />
+              <div>
+                <h1 className="text-[32px] font-extrabold mb-6">
+                  {country.name.common}
+                </h1>
+                <div className="flex flex-col sm:flex-row gap-8 sm:gap-16 xl:gap-20 2xl:gap-30">
+                  <div className="flex flex-col gap-2 min-w-[207px]">
+                    <DetailItem label="Native name" value={nativeName} />
+                    <DetailItem
+                      label="Population"
+                      value={formatNumber(country.population)}
+                    />
+                    <DetailItem label="Region" value={country.region} />
+                    <DetailItem label="Sub Region" value={country.subregion} />
+                    <DetailItem
+                      label="Capital"
+                      value={country.capital?.[0] || "N/A"}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <DetailItem
+                      label="Top Level Domain"
+                      value={country.tld?.[0] || "N/A"}
+                    />
+                    <DetailItem
+                      label="Currencies"
+                      value={
+                        country.currencies &&
+                        Object.keys(country.currencies).length > 0
+                          ? country.currencies[
+                              Object.keys(country.currencies)[0]
+                            ].name
+                          : "N/A"
+                      }
+                    />
+                    <DetailItem
+                      label="Languages"
+                      value={
+                        country.languages &&
+                        Object.keys(country.languages).length > 0
+                          ? Object.values(country.languages).sort().join(", ")
+                          : "N/A"
+                      }
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="mt-8">
-              <p className="text-base font-semibold">Border Countries:</p>
-              {borderCountries.length > 0 ? (
-                <div className="grid grid-cols-3 gap-2 mt-2 xl:min-w-[500px] xl:max-w-[500px]">
-                  {[...borderCountries]
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .map((borderCountry) => (
-                      <div
-                        key={borderCountry.code}
-                        onClick={() =>
-                          navigate(`/country/${borderCountry.code}`)
-                        }
-                        className="cursor-pointer w-full"
-                      >
-                        <Badge label={borderCountry.name} />
-                      </div>
-                    ))}
-                </div>
-              ) : (
-                <p className="text-base font-light text-light-text dark:text-dark-text mt-2">
-                  This country has no border countries.
-                </p>
-              )}
+              <div className="mt-8">
+                <p className="text-base font-semibold">Border Countries:</p>
+                {borderCountries.length > 0 ? (
+                  <div className="grid grid-cols-3 gap-2 mt-2 xl:min-w-[420px] xl:max-w-[420px]">
+                    {[...borderCountries]
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map((borderCountry) => (
+                        <div
+                          key={borderCountry.code}
+                          onClick={() =>
+                            navigate(`/country/${borderCountry.code}`)
+                          }
+                          className="cursor-pointer"
+                        >
+                          <Badge label={borderCountry.name} />
+                        </div>
+                      ))}
+                  </div>
+                ) : (
+                  <p className="text-base font-light text-light-text dark:text-dark-text mt-2">
+                    This country has no border countries.
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>

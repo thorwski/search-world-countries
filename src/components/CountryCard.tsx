@@ -25,7 +25,7 @@ const CountryCard = ({
         />
       </div>
       <div className="p-6 space-y-4">
-        <h2 className="font-extrabold text-lg">{name}</h2>
+        <h2 className="font-extrabold text-lg truncate">{name}</h2>
         <div className="flex flex-col gap-2 mb-3">
           <p className="text-sm font-semibold">
             Population:{" "}
