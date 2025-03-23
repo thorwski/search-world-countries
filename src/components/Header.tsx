@@ -5,10 +5,17 @@ const Header = () => {
   const moonIconLight = "/assets/moon-light.svg";
   const moonIconDark = "/assets/moon-dark.svg";
 
+  const handleTitleClick = () => {
+    window.location.href = "/";
+  };
+
   return (
     <header className="flex justify-center px-4 py-8 md:px-20 md:py-6 w-full max-h-[80px] fixed bg-light-bg dark:bg-dark2-bg text-light-text dark:text-dark-text shadow-[0_2px_4px_0px_#0000000E] z-100">
       <div className="flex justify-between items-center w-full max-w-[1280px]">
-        <h1 className="text-xl md:text-2xl font-extrabold">
+        <h1
+          className="text-xl md:text-2xl font-extrabold cursor-pointer"
+          onClick={handleTitleClick}
+        >
           Where in the world?
         </h1>
         <div>
