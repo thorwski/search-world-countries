@@ -10,7 +10,7 @@ const Header = () => {
   };
 
   return (
-    <header className="flex justify-center px-4 py-8 md:px-20 md:py-6 w-full max-h-[80px] fixed bg-light-bg dark:bg-dark2-bg text-light-text dark:text-dark-text shadow-[0_2px_4px_0px_#0000000E] z-100">
+    <header className="flex justify-center px-4 py-8 md:px-20 md:py-6 w-[100vw] max-h-[80px] fixed bg-light-bg dark:bg-dark2-bg text-light-text dark:text-dark-text shadow-[0_2px_4px_0px_#0000000E] z-100">
       <div className="flex justify-between items-center w-full max-w-[1280px]">
         <h1
           className="text-xl md:text-2xl font-extrabold cursor-pointer"
