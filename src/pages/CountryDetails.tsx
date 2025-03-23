@@ -108,7 +108,7 @@ const CountryDetails = () => {
           <img
             src={country.flags.png}
             alt={`${country.name.common} flag`}
-            className="w-full sm:max-w-[560px] sm:min-h-[400px] sm:max-h-[400px] rounded-[10px]"
+            className="w-full h-[229px] sm:max-w-[560px] sm:min-h-[400px] sm:max-h-[400px] rounded-[10px]"
           />
           <div>
             <div>
