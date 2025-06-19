@@ -42,7 +42,7 @@ const Home = () => {
     const handleFetch = async () => {
       try {
         const { data }: { data: Country[] } = await axios.get(
-          `${API_BASE_URL}/all`
+          `${API_BASE_URL}/all?fields=name,flags,capital,region,population,cca3`
         );
         setAllCountries(data);
       } catch (err) {
